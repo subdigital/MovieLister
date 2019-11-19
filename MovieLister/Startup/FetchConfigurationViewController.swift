@@ -64,17 +64,17 @@ class FetchConfigurationViewController : UIViewController {
     
     private func updateConfiguration() {
         activityIndicator.startAnimating()
-        MovieDB.api.send(request: MovieDB.configuration()) { (result: Result<MovieDBConfiguration, APIError>) in
-            self.activityIndicator.stopAnimating()
-            switch result {
-            case .success(let config):
-                MovieDBConfiguration.current = config
-                self.completionBlock()
-            case .failure(let error):
-                print(error)
-                self.showError(error: error)
-            }
-        }
+//        MovieDB.api.send(request: MovieDB.configuration()) { (result: Result<MovieDBConfiguration, APIError>) in
+//            self.activityIndicator.stopAnimating()
+//            switch result {
+//            case .success(let config):
+//                MovieDBConfiguration.current = config
+//                self.completionBlock()
+//            case .failure(let error):
+//                print(error)
+//                self.showError(error: error)
+//            }
+//        }
     }
     
     private func showError(error: Error) {

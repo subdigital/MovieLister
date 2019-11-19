@@ -24,12 +24,17 @@ struct MovieDB {
     }()
     
     struct SessionAdapter : RequestAdapter {
-        func adapt(_ request: Requestable) -> Requestable {
+        func adapt(_ request: URLRequest) -> URLRequest {
             guard let sessionId = SessionManager.shared.currentSessionId else { return request }
+            guard let requestURL = request.url else { return request }
+            guard var components = URLComponents(url: requestURL, resolvingAgainstBaseURL: false) else { return request }
+            
+            var queryItems = components.queryItems ?? []
+            queryItems.append(URLQueryItem(name: "session_id", value: sessionId))
+            components.queryItems = queryItems
+            
             var req = request
-            var params = req.params ?? []
-            params.append(URLQueryItem(name: "session_id", value: sessionId))
-            req.params = params
+            req.url = components.url
             return req
         }
     }
@@ -41,39 +46,47 @@ struct MovieDB {
     }
     
     struct AuthorizationAdapter : RequestAdapter {
-        func adapt(_ request: Requestable) -> Requestable {
+        func adapt(_ request: URLRequest) -> URLRequest {
+            guard let requestURL = request.url else { return request }
+            guard var components = URLComponents(url: requestURL, resolvingAgainstBaseURL: false) else { return request }
+            
+            let apiKey = "asdf"
+            var queryItems = components.queryItems ?? []
+            queryItems.append(URLQueryItem(name: "apiKey", value: apiKey))
+            components.queryItems = queryItems
+            
             var req = request
-            var params = req.params ?? []
-            let apiKey = "asdfasdf"
-            params.append(URLQueryItem(name: "apiKey", value: apiKey))
-            req.params = params
+            req.url = components.url
             return req
         }
     }
 
 }
  
-extension Requestable {
-    static func popularMovies() -> Requestable {
-        Request(method: .get, baseURL: MovieDB.baseURL, path: "discover/movie", params: [
+extension Req {
+        
+    static func popularMovies(completion: @escaping (Result<PagedResults<Movie>, APIError>) -> Void) -> Req {
+        Req.basic(baseURL: MovieDB.baseURL, path: "discover/movie", params: [
             URLQueryItem(name: "sort_by", value: "popularity.desc")
-        ])
+        ]) { result in
+            completion(result.decoding(PagedResults<Movie>.self))
+        }
     }
     
-    static func configuration() -> Requestable {
-        Request(method: .get, baseURL: MovieDB.baseURL, path: "configuration")
-    }
-    
-    static func createRequestToken() -> Requestable {
-        Request(method: .get, baseURL: MovieDB.baseURL, path: "authentication/token/new")
-    }
-    
-    static func createSession(requestToken: String) -> Requestable {
-        let body = CreateSessionRequest(request_token: requestToken)
-        return PostRequest(baseURL: MovieDB.baseURL, path: "authentication/session/new", body: body)
-    }
-    
-    static func account() -> Requestable {
-        Request(method: .get, baseURL: MovieDB.baseURL, path: "account")
-    }
+//    static func configuration() -> Requestable {
+//        Request(method: .get, baseURL: MovieDB.baseURL, path: "configuration")
+//    }
+//
+//    static func createRequestToken() -> Requestable {
+//        Request(method: .get, baseURL: MovieDB.baseURL, path: "authentication/token/new")
+//    }
+//
+//    static func createSession(requestToken: String) -> Requestable {
+//        let body = CreateSessionRequest(request_token: requestToken)
+//        return PostRequest(baseURL: MovieDB.baseURL, path: "authentication/session/new", body: body)
+//    }
+//
+//    static func account() -> Requestable {
+//        Request(method: .get, baseURL: MovieDB.baseURL, path: "account")
+//    }
 }

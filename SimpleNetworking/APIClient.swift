@@ -9,14 +9,14 @@
 import Foundation
 
 public protocol RequestAdapter {
-    func adapt(_ request: Requestable) -> Requestable
+    func adapt(_ request: URLRequest) -> URLRequest
     func beforeSend(method: HTTPMethod, url: URL)
     func onError(request: URLRequest)
     func onSuccess(request: URLRequest)
 }
 
 public extension RequestAdapter {
-    func adapt(_ request: Requestable) -> Requestable { return request }
+    func adapt(_ request: URLRequest) -> URLRequest { return request }
     func beforeSend(method: HTTPMethod, url: URL) { }
     func onError(request: URLRequest) { }
     func onSuccess(request: URLRequest) { }
@@ -37,43 +37,27 @@ public struct APIClient {
         queue = DispatchQueue(label: "SimpleNetworking", qos: .userInitiated, attributes: .concurrent)
     }
     
-    public func send<M : Model>(request: Requestable, completion: @escaping (Result<M, APIError>) -> Void) {
+    public func send(request: Req) {
         queue.async {
-            var adaptedRequest = request
+            var urlRequest = request.builder.toURLRequest()
             for adapter in self.adapters {
-                adaptedRequest = adapter.adapt(adaptedRequest)
+                urlRequest = adapter.adapt(urlRequest)
             }
-            let urlRequest = adaptedRequest.toURLRequest()
             let task = self.session.dataTask(with: urlRequest) { (data, response, error) in
-                let result: Result<M, APIError>
+                let result: Result<Data, APIError>
                 if let error = error {
                     result = .failure(.networkError(error))
                 } else if let error = APIError.error(from: response) {
                     result = .failure(error)
                 } else {
-//                    let body = String(data: data!, encoding: .utf8)
-//                    print(body ?? "<?>")                    
-                    result = self.decode(data: data)
+                    result = .success(data ?? Data())
                 }
                 
                 DispatchQueue.main.async {
-                    completion(result)
+                    request.completion(result)
                 }
             }
             task.resume()
-        }
-    }
-    
-    private func decode<M : Model>(data: Data?) -> Result<M, APIError> {
-        let data = data ?? Data()
-        do {
-            let decoder = M.decoder
-            let model = try decoder.decode(M.self, from: data)
-            return .success(model)
-        } catch let e as DecodingError {
-            return .failure(.decodingError(e))
-        } catch {
-            fatalError("Should not happen")
         }
     }
 }

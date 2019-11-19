@@ -81,9 +81,35 @@ public struct Req {
         self.builder = builder
         self.completion = completion
     }
+    
+    public static func basic(method: HTTPMethod = .get, baseURL: URL, path: String, params: [URLQueryItem]? = nil, completion: @escaping (Result<Data, APIError>) -> Void) -> Req {
+        let builder = BasicRequestBuilder(method: method, baseURL: baseURL, path: path, params: params)
+        return Req(builder: builder, completion: completion)
+    }
+    
+    public static func post<Body : Model>(method: HTTPMethod = .post, baseURL: URL, path: String, params: [URLQueryItem]? = nil, body: Body?, completion: @escaping (Result<Data, APIError>) -> Void) -> Req {
+        let builder = PostRequestBuilder(method: method, baseURL: baseURL, path: path, params: params, body: body)
+        return Req(builder: builder, completion: completion)
+    }
 }
 
-public struct RequestBuilder : RequestBuilder {
+public extension Result where Success == Data, Failure == APIError {
+    func decoding<M : Model>(_ model: M.Type) -> Result<M, APIError> {
+        return flatMap { data -> Result<M, APIError> in
+            do {
+                let decoder = M.decoder
+                let model = try decoder.decode(M.self, from: data)
+                return .success(model)
+            } catch let e as DecodingError {
+                return .failure(.decodingError(e))
+            } catch {
+                return .failure(APIError.unhandledResponse)
+            }
+        }
+    }
+}
+
+struct BasicRequestBuilder : RequestBuilder {
     public var method: HTTPMethod
     public var baseURL: URL
     public var path: String
@@ -98,7 +124,7 @@ public struct RequestBuilder : RequestBuilder {
     }
 }
 
-public struct PostRequestBuilder<Body : Model> : RequestBuilder {
+struct PostRequestBuilder<Body : Model> : RequestBuilder {
     public var method: HTTPMethod
     public var baseURL: URL
     public var path: String

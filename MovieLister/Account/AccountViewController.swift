@@ -24,16 +24,16 @@ class AccountViewController : UIViewController {
     }
     
     private func fetchAccount() {
-//        MovieDB.api.send(request: MovieDB.account()) { (result: Result<Account, APIError>) in
-//            switch result {
-//            case .success(let account):
-//                self.usernameLabel.text = account.displayName
-//                
-//            case .failure(let error):
-//                let alert = UIAlertController(title: "Error fetching account", message: error.localizedDescription, preferredStyle: .alert)
-//                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-//                self.present(alert, animated: true, completion: nil)
-//            }
-//        }
+        MovieDB.api.send(request: .account({ result in
+            switch result {
+            case .success(let account):
+                self.usernameLabel.text = account.displayName
+
+            case .failure(let error):
+                let alert = UIAlertController(title: "Error fetching account", message: error.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }))
     }
 }

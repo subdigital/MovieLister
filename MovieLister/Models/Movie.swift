@@ -34,3 +34,7 @@ struct Movie : Model, Hashable {
         releaseDate = Movie.releaseDateFormatter.date(from: releaseDateString)!
     }
 }
+
+extension Movie {
+    
+}

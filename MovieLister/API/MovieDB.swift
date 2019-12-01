@@ -18,9 +18,24 @@ struct MovieDB {
         configuration.httpAdditionalHeaders = [
             "Authorization" : "Bearer \(apiKey)"
         ]
-        return APIClient(configuration: configuration, adapters: [
-            SessionAdapter()
-        ])
+        return APIClient(
+            configuration: configuration,
+            adapters: [
+                SessionAdapter()
+            ],
+            logLevel: .debug)
+    }()
+
+    static var defaultDecoder: JSONDecoder = {
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return decoder
+    }()
+
+    static var defaultEncoder: JSONEncoder = {
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        return encoder
     }()
     
     struct SessionAdapter : RequestAdapter {
@@ -63,30 +78,51 @@ struct MovieDB {
 
 }
  
-extension Req {
+extension Request {
         
-    static func popularMovies(completion: @escaping (Result<PagedResults<Movie>, APIError>) -> Void) -> Req {
-        Req.basic(baseURL: MovieDB.baseURL, path: "discover/movie", params: [
+    static func popularMovies(_ completion: @escaping (Result<PagedResults<Movie>, APIError>) -> Void) -> Request {
+        Request.basic(baseURL: MovieDB.baseURL, path: "discover/movie", params: [
             URLQueryItem(name: "sort_by", value: "popularity.desc")
         ]) { result in
             completion(result.decoding(PagedResults<Movie>.self))
         }
     }
     
-//    static func configuration() -> Requestable {
-//        Request(method: .get, baseURL: MovieDB.baseURL, path: "configuration")
-//    }
-//
-//    static func createRequestToken() -> Requestable {
-//        Request(method: .get, baseURL: MovieDB.baseURL, path: "authentication/token/new")
-//    }
-//
-//    static func createSession(requestToken: String) -> Requestable {
-//        let body = CreateSessionRequest(request_token: requestToken)
-//        return PostRequest(baseURL: MovieDB.baseURL, path: "authentication/session/new", body: body)
-//    }
-//
-//    static func account() -> Requestable {
-//        Request(method: .get, baseURL: MovieDB.baseURL, path: "account")
-//    }
+    static func configuration(_ completion: @escaping (Result<MovieDBConfiguration, APIError>) -> Void) -> Request {
+        Request.basic(baseURL: MovieDB.baseURL, path: "configuration") { result in
+            completion(result.decoding(MovieDBConfiguration.self))
+        }
+    }
+
+    static func createRequestToken(_ completion: @escaping (Result<AuthenticationTokenResponse, APIError>) -> Void) -> Request {
+        Request.basic(baseURL: MovieDB.baseURL, path: "authentication/token/new") { result in
+            completion(result.decoding(AuthenticationTokenResponse.self))
+        }
+    }
+
+    static func createSession(requestToken: String, _ completion: @escaping (Result<CreateSessionResponse, APIError>) -> Void) -> Request {
+        let body = CreateSessionRequest(request_token: requestToken)
+        return Request.post(baseURL: MovieDB.baseURL, path: "authentication/session/new", body: body) { result in
+            completion(result.decoding(CreateSessionResponse.self))
+        }
+    }
+
+    static func account(_ completion: @escaping (Result<Account, APIError>) -> Void) -> Request {
+        Request.basic(baseURL: MovieDB.baseURL, path: "account") { result in
+            completion(result.decoding(Account.self))
+        }
+    }
+
+    static func favoriteMovies(accountID: Int, _ completion: @escaping (Result<PagedResults<Movie>, APIError>) -> Void) -> Request {
+        Request.basic(baseURL: MovieDB.baseURL, path: "account/\(accountID)/favorite/movies") { result in
+            completion(result.decoding(PagedResults<Movie>.self))
+        }
+    }
+
+    static func markFavorite(accountID: Int, mediaType: String, mediaID: Int, favorite: Bool, _ completion: @escaping (Result<GenericResponse, APIError>) -> Void) -> Request {
+        let body = MarkFavoriteRequest(mediaType: mediaType, mediaId: mediaID, favorite: favorite)
+        return Request.post(baseURL: MovieDB.baseURL, path: "account/\(accountID)/favorite", body: body) { result in
+            completion(result.decoding(GenericResponse.self))
+        }
+    }
 }

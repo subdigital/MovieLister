@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wqG-7D-blg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wqG-7D-blg">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -138,9 +138,14 @@
                         <viewLayoutGuide key="safeArea" id="Hlj-j4-cQZ"/>
                     </view>
                     <navigationItem key="navigationItem" id="hj9-l5-zbX">
-                        <barButtonItem key="rightBarButtonItem" image="star" catalog="system" id="Rxc-Th-sTA"/>
+                        <barButtonItem key="rightBarButtonItem" image="star" catalog="system" id="Rxc-Th-sTA">
+                            <connections>
+                                <action selector="favoriteTapped:" destination="0S6-Xh-4Ce" id="1Y8-IN-HdT"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="favoriteButton" destination="Rxc-Th-sTA" id="BJI-Tr-akd"/>
                         <outlet property="posterImageView" destination="1hV-pF-ukl" id="2kv-3D-5NU"/>
                         <outlet property="titleLabel" destination="wAJ-iS-S33" id="2M4-T4-u2Y"/>
                         <outlet property="yearLabel" destination="A5S-1s-yPC" id="qOw-z5-Oik"/>
@@ -235,19 +240,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logged in as" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F3a-AQ-NZk">
-                                <rect key="frame" x="20" y="44" width="374" height="41"/>
+                                <rect key="frame" x="20" y="64" width="374" height="41"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NAME" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JAY-fD-EhB">
-                                <rect key="frame" x="20" y="109" width="374" height="21"/>
+                                <rect key="frame" x="20" y="129" width="374" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XvU-Th-Who">
-                                <rect key="frame" x="179.5" y="219" width="55" height="30"/>
+                                <rect key="frame" x="179.5" y="239" width="55" height="30"/>
                                 <state key="normal" title="Log Out"/>
                                 <connections>
                                     <action selector="logOut" destination="iwv-GF-WoK" eventType="touchUpInside" id="8gl-cY-dCh"/>
@@ -259,7 +264,7 @@
                             <constraint firstItem="PaG-fg-sWe" firstAttribute="trailing" secondItem="JAY-fD-EhB" secondAttribute="trailing" constant="20" id="28s-Gj-E37"/>
                             <constraint firstItem="JAY-fD-EhB" firstAttribute="top" secondItem="F3a-AQ-NZk" secondAttribute="bottom" constant="24" id="4X4-sx-7Pa"/>
                             <constraint firstItem="PaG-fg-sWe" firstAttribute="trailing" secondItem="F3a-AQ-NZk" secondAttribute="trailing" constant="20" id="U4X-Vj-tHt"/>
-                            <constraint firstItem="F3a-AQ-NZk" firstAttribute="top" secondItem="PaG-fg-sWe" secondAttribute="top" id="af1-s0-vbk"/>
+                            <constraint firstItem="F3a-AQ-NZk" firstAttribute="top" secondItem="PaG-fg-sWe" secondAttribute="top" constant="20" id="af1-s0-vbk"/>
                             <constraint firstItem="XvU-Th-Who" firstAttribute="centerX" secondItem="PaG-fg-sWe" secondAttribute="centerX" id="bew-wd-HNV"/>
                             <constraint firstItem="F3a-AQ-NZk" firstAttribute="leading" secondItem="PaG-fg-sWe" secondAttribute="leading" constant="20" id="bzK-vl-zqN"/>
                             <constraint firstItem="XvU-Th-Who" firstAttribute="top" secondItem="JAY-fD-EhB" secondAttribute="bottom" constant="89" id="h8Q-YQ-a4m"/>

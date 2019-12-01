@@ -10,5 +10,11 @@ import Foundation
 import SimpleNetworking
 
 struct CreateSessionRequest : Model {
-    let request_token: String
+    let requestToken: String
+}
+
+extension CreateSessionRequest {
+    static var encoder: JSONEncoder {
+        MovieDB.defaultEncoder
+    }
 }

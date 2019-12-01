@@ -22,6 +22,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let rootVC = storyboard.instantiateInitialViewController()
             window.rootViewController = rootVC
         }
+
+        if World.sessionManager.isLoggedIn {
+            World.accountManager.fetchAccount { result in
+                if case .failure(let e) = result {
+                    print("Error fetching account: \(e)")
+                }
+            }
+        }
         
         if let _ = MovieDBConfiguration.current {
             showRoot()

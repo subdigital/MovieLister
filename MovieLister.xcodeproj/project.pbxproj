@@ -25,8 +25,14 @@
 		B56B5A8123691ED1008ECEB5 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56B5A8023691ED1008ECEB5 /* APIClient.swift */; };
 		B56B5A86236921B1008ECEB5 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56B5A85236921B1008ECEB5 /* Movie.swift */; };
 		B56B5A88236922A3008ECEB5 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56B5A87236922A3008ECEB5 /* Request.swift */; };
+		B57596F22384E03000D9F538 /* MarkFavoriteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57596F12384E03000D9F538 /* MarkFavoriteRequest.swift */; };
+		B57596F42384E04000D9F538 /* GenericResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57596F32384E04000D9F538 /* GenericResponse.swift */; };
+		B57596F62384E37500D9F538 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57596F52384E37500D9F538 /* World.swift */; };
+		B57596F82384E5AE00D9F538 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57596F72384E5AE00D9F538 /* AccountManager.swift */; };
 		B57CEB1923822E6500CC903B /* MovieDBAPIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57CEB1823822E6500CC903B /* MovieDBAPIKey.swift */; };
 		B57CEB1B23822F2100CC903B /* CreationSessionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57CEB1A23822F2100CC903B /* CreationSessionRequest.swift */; };
+		B5B950A123858E23007E45A9 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B950A023858E23007E45A9 /* RequestBuilder.swift */; };
+		B5B950A323858E38007E45A9 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B950A223858E38007E45A9 /* Model.swift */; };
 		B5DCC43D23726480003A9082 /* PagedResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DCC43C23726480003A9082 /* PagedResults.swift */; };
 		B5DCC43F23726669003A9082 /* MovieDBConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DCC43E23726669003A9082 /* MovieDBConfiguration.swift */; };
 		B5EC9813237885C70075E016 /* AuthenticationTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EC9812237885C70075E016 /* AuthenticationTokenResponse.swift */; };
@@ -88,8 +94,14 @@
 		B56B5A8023691ED1008ECEB5 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		B56B5A85236921B1008ECEB5 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		B56B5A87236922A3008ECEB5 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		B57596F12384E03000D9F538 /* MarkFavoriteRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkFavoriteRequest.swift; sourceTree = "<group>"; };
+		B57596F32384E04000D9F538 /* GenericResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericResponse.swift; sourceTree = "<group>"; };
+		B57596F52384E37500D9F538 /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
+		B57596F72384E5AE00D9F538 /* AccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
 		B57CEB1823822E6500CC903B /* MovieDBAPIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDBAPIKey.swift; sourceTree = "<group>"; };
 		B57CEB1A23822F2100CC903B /* CreationSessionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreationSessionRequest.swift; sourceTree = "<group>"; };
+		B5B950A023858E23007E45A9 /* RequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBuilder.swift; sourceTree = "<group>"; };
+		B5B950A223858E38007E45A9 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		B5DCC43C23726480003A9082 /* PagedResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedResults.swift; sourceTree = "<group>"; };
 		B5DCC43E23726669003A9082 /* MovieDBConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDBConfiguration.swift; sourceTree = "<group>"; };
 		B5EC9812237885C70075E016 /* AuthenticationTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationTokenResponse.swift; sourceTree = "<group>"; };
@@ -163,11 +175,13 @@
 				B56B5A6923691BD6008ECEB5 /* Popular Movies */,
 				B5EC9827237B94290075E016 /* Movie Detail */,
 				B5EC98202378DF660075E016 /* Account */,
+				B5EC981E2378D3CB0075E016 /* SessionManager.swift */,
+				B57596F72384E5AE00D9F538 /* AccountManager.swift */,
+				B57596F52384E37500D9F538 /* World.swift */,
 				B56B5A5823691A6E008ECEB5 /* Main.storyboard */,
 				B56B5A5B23691A72008ECEB5 /* Assets.xcassets */,
 				B56B5A5D23691A72008ECEB5 /* LaunchScreen.storyboard */,
 				B56B5A6023691A72008ECEB5 /* Info.plist */,
-				B5EC981E2378D3CB0075E016 /* SessionManager.swift */,
 			);
 			path = MovieLister;
 			sourceTree = "<group>";
@@ -199,6 +213,8 @@
 				B56B5A8023691ED1008ECEB5 /* APIClient.swift */,
 				B56B5A87236922A3008ECEB5 /* Request.swift */,
 				B508735923775765002F8E0D /* APIError.swift */,
+				B5B950A023858E23007E45A9 /* RequestBuilder.swift */,
+				B5B950A223858E38007E45A9 /* Model.swift */,
 			);
 			path = SimpleNetworking;
 			sourceTree = "<group>";
@@ -213,6 +229,8 @@
 				B5EC98192378CEC30075E016 /* CreateSessionResponse.swift */,
 				B5EC98252378EBE10075E016 /* Account.swift */,
 				B57CEB1A23822F2100CC903B /* CreationSessionRequest.swift */,
+				B57596F12384E03000D9F538 /* MarkFavoriteRequest.swift */,
+				B57596F32384E04000D9F538 /* GenericResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -374,11 +392,14 @@
 				B5EC98242378E1ED0075E016 /* AccountContainerViewController.swift in Sources */,
 				B5EC9818237891490075E016 /* URLSchemeHandler.swift in Sources */,
 				B5DCC43F23726669003A9082 /* MovieDBConfiguration.swift in Sources */,
+				B57596F22384E03000D9F538 /* MarkFavoriteRequest.swift in Sources */,
 				B5EC9816237891250075E016 /* AuthenticationCallbackHandler.swift in Sources */,
 				B56B5A5323691A6E008ECEB5 /* AppDelegate.swift in Sources */,
 				B5EC98222378DF770075E016 /* AccountViewController.swift in Sources */,
+				B57596F42384E04000D9F538 /* GenericResponse.swift in Sources */,
 				B508735823774E07002F8E0D /* FetchConfigurationViewController.swift in Sources */,
 				B57CEB1923822E6500CC903B /* MovieDBAPIKey.swift in Sources */,
+				B57596F62384E37500D9F538 /* World.swift in Sources */,
 				B508735E23776C8F002F8E0D /* MovieCellModel.swift in Sources */,
 				B56B5A5523691A6E008ECEB5 /* SceneDelegate.swift in Sources */,
 				B5EC982E237B9EB10075E016 /* MovieDetailModel.swift in Sources */,
@@ -387,6 +408,7 @@
 				B57CEB1B23822F2100CC903B /* CreationSessionRequest.swift in Sources */,
 				B56B5A6B23691BFF008ECEB5 /* PopularMoviesViewController.swift in Sources */,
 				B5EC9829237B943A0075E016 /* MovieDetailViewController.swift in Sources */,
+				B57596F82384E5AE00D9F538 /* AccountManager.swift in Sources */,
 				B5EC981F2378D3CB0075E016 /* SessionManager.swift in Sources */,
 				B5EC98262378EBE10075E016 /* Account.swift in Sources */,
 				B559EB40237879CB00D3DD9B /* LoginViewController.swift in Sources */,
@@ -397,9 +419,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5B950A323858E38007E45A9 /* Model.swift in Sources */,
 				B56B5A8123691ED1008ECEB5 /* APIClient.swift in Sources */,
 				B56B5A88236922A3008ECEB5 /* Request.swift in Sources */,
 				B508735A23775765002F8E0D /* APIError.swift in Sources */,
+				B5B950A123858E23007E45A9 /* RequestBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -553,6 +577,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = C2K3864N2N;
 				INFOPLIST_FILE = MovieLister/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -572,6 +597,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = C2K3864N2N;
 				INFOPLIST_FILE = MovieLister/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

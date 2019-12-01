@@ -35,7 +35,7 @@ public enum APIError : Error, CustomStringConvertible {
         case .networkError(let error): return "Network Error: \(error.localizedDescription)"
         case .requestError(let statusCode): return "HTTP \(statusCode)"
         case .serverError(let statusCode): return "Server error (HTTP \(statusCode))"
-        case .decodingError(let decodingError): return decodingError.localizedDescription
+        case .decodingError(let decodingError): return "Decoding error: \(decodingError)"
         case .unhandledResponse: return "Unhandled response"
         }
     }

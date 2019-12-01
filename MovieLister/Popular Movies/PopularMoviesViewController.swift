@@ -33,8 +33,9 @@ class PopularMoviesViewController : UITableViewController {
     private func fetchMovies() {
         guard let config = MovieDBConfiguration.current else { return }
         
-        MovieDB.api.send(request: .popularMovies(completion: { result in
+        MovieDB.api.send(request: .popularMovies({ result in
             switch result {
+
             case .success(let page):
                 self.movies = page.results
                 var snapshot = NSDiffableDataSourceSnapshot<Section, MovieCellModel>()
@@ -42,23 +43,13 @@ class PopularMoviesViewController : UITableViewController {
                 let models = page.results.map { MovieCellModel(movie: $0, configuration: config) }
                 snapshot.appendItems(models, toSection: .main)
                 self.datasource.apply(snapshot)
+
             case .failure(let error):
                 print("Error: \(error)")
 
             }
+
         }))
-        
-//        MovieDB.api.send(request: MovieDB.popularMovies()) {
-//            (result: Result<PagedResults<Movie>, APIError>) in
-//            
-//            switch result {
-//            case .success(let page):
-//
-//                
-//            case .failure(let error):
-//                print("Error: \(error)")
-//            }
-//        }
     }
     
     @IBSegueAction

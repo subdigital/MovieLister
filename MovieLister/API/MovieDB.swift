@@ -79,50 +79,50 @@ struct MovieDB {
 }
  
 extension Request {
-        
+
     static func popularMovies(_ completion: @escaping (Result<PagedResults<Movie>, APIError>) -> Void) -> Request {
         Request.basic(baseURL: MovieDB.baseURL, path: "discover/movie", params: [
             URLQueryItem(name: "sort_by", value: "popularity.desc")
         ]) { result in
-            completion(result.decoding(PagedResults<Movie>.self))
+            result.decoding(PagedResults<Movie>.self, completion: completion)
         }
     }
     
     static func configuration(_ completion: @escaping (Result<MovieDBConfiguration, APIError>) -> Void) -> Request {
         Request.basic(baseURL: MovieDB.baseURL, path: "configuration") { result in
-            completion(result.decoding(MovieDBConfiguration.self))
+            result.decoding(MovieDBConfiguration.self, completion: completion)
         }
     }
 
     static func createRequestToken(_ completion: @escaping (Result<AuthenticationTokenResponse, APIError>) -> Void) -> Request {
         Request.basic(baseURL: MovieDB.baseURL, path: "authentication/token/new") { result in
-            completion(result.decoding(AuthenticationTokenResponse.self))
+            result.decoding(AuthenticationTokenResponse.self, completion: completion)
         }
     }
 
     static func createSession(requestToken: String, _ completion: @escaping (Result<CreateSessionResponse, APIError>) -> Void) -> Request {
-        let body = CreateSessionRequest(request_token: requestToken)
+        let body = CreateSessionRequest(requestToken: requestToken)
         return Request.post(baseURL: MovieDB.baseURL, path: "authentication/session/new", body: body) { result in
-            completion(result.decoding(CreateSessionResponse.self))
+            result.decoding(CreateSessionResponse.self, completion: completion)
         }
     }
 
     static func account(_ completion: @escaping (Result<Account, APIError>) -> Void) -> Request {
         Request.basic(baseURL: MovieDB.baseURL, path: "account") { result in
-            completion(result.decoding(Account.self))
+            result.decoding(Account.self, completion: completion)
         }
     }
 
     static func favoriteMovies(accountID: Int, _ completion: @escaping (Result<PagedResults<Movie>, APIError>) -> Void) -> Request {
         Request.basic(baseURL: MovieDB.baseURL, path: "account/\(accountID)/favorite/movies") { result in
-            completion(result.decoding(PagedResults<Movie>.self))
+            result.decoding(PagedResults<Movie>.self, completion: completion)
         }
     }
 
     static func markFavorite(accountID: Int, mediaType: String, mediaID: Int, favorite: Bool, _ completion: @escaping (Result<GenericResponse, APIError>) -> Void) -> Request {
         let body = MarkFavoriteRequest(mediaType: mediaType, mediaId: mediaID, favorite: favorite)
         return Request.post(baseURL: MovieDB.baseURL, path: "account/\(accountID)/favorite", body: body) { result in
-            completion(result.decoding(GenericResponse.self))
+            result.decoding(GenericResponse.self, completion: completion)
         }
     }
 }

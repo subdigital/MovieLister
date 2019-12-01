@@ -8,22 +8,22 @@
 
 import Foundation
 
-public protocol RequestBuilder : URLRequestConvertible {
+public protocol RequestBuilder {
     var method: HTTPMethod { get set }
     var baseURL: URL { get set }
     var path: String { get set }
     var params: [URLQueryItem]? { get set }
     var headers: [String : String] { get set }
-
     func encodeRequestBody() -> Data?
+    func toURLRequest() -> URLRequest
 }
 
-extension RequestBuilder {
-    public func encodeRequestBody() -> Data? {
+public extension RequestBuilder {
+    func encodeRequestBody() -> Data? {
         return nil
     }
 
-    public func toURLRequest() -> URLRequest {
+    func toURLRequest() -> URLRequest {
         var components = URLComponents(url: baseURL.appendingPathComponent(path), resolvingAgainstBaseURL: false)!
         components.queryItems = params
         let url = components.url!
@@ -37,18 +37,11 @@ extension RequestBuilder {
 }
 
 struct BasicRequestBuilder : RequestBuilder {
-    public var method: HTTPMethod
-    public var baseURL: URL
-    public var path: String
-    public var params: [URLQueryItem]?
-    public var headers: [String : String] = [:]
-
-    public init(method: HTTPMethod, baseURL: URL, path: String, params: [URLQueryItem]? = nil) {
-        self.method = method
-        self.baseURL = baseURL
-        self.path = path
-        self.params = params
-    }
+    var method: HTTPMethod
+    var baseURL: URL
+    var path: String
+    var params: [URLQueryItem]?
+    var headers: [String : String] = [:]
 }
 
 struct PostRequestBuilder<Body : Model> : RequestBuilder {

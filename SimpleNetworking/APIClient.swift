@@ -74,8 +74,8 @@ public struct APIClient {
                 let result: Result<Data, APIError>
                 if let error = error {
                     result = .failure(.networkError(error))
-                } else if let error = APIError.error(from: response) {
-                    result = .failure(error)
+                } else if let apiError = APIError.error(from: response) {
+                    result = .failure(apiError)
                 } else {
                     result = .success(data ?? Data())
                 }

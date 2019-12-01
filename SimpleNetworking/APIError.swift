@@ -8,14 +8,16 @@
 
 import Foundation
 
-public enum APIError : Error, CustomStringConvertible {
+public enum APIError : Error {
     case unknownResponse
     case networkError(Error)
     case requestError(Int)
     case serverError(Int)
     case decodingError(DecodingError)
     case unhandledResponse
-    
+}
+
+extension APIError : CustomStringConvertible {
     static func error(from response: URLResponse?) -> APIError? {
         guard let http = response as? HTTPURLResponse else {
             return .unknownResponse

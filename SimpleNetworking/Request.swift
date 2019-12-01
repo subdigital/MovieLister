@@ -9,24 +9,10 @@
 import Foundation
 
 public enum HTTPMethod : String {
-    case get = "GET"
-    case post = "POST"
-}
-
-public protocol URLRequestConvertible {
-    func toURLRequest() -> URLRequest
-}
-
-extension URLRequest : URLRequestConvertible {
-    public func toURLRequest() -> URLRequest {
-        return self
-    }
-}
-
-extension URL : URLRequestConvertible {
-    public func toURLRequest() -> URLRequest {
-        return URLRequest(url: self)
-    }
+    case get
+    case post
+    case put
+    case delete
 }
 
 public struct Request {
@@ -52,16 +38,21 @@ public struct Request {
 }
 
 public extension Result where Success == Data, Failure == APIError {
-    func decoding<M : Model>(_ model: M.Type) -> Result<M, APIError> {
-        return flatMap { data -> Result<M, APIError> in
-            do {
-                let decoder = M.decoder
-                let model = try decoder.decode(M.self, from: data)
-                return .success(model)
-            } catch let e as DecodingError {
-                return .failure(.decodingError(e))
-            } catch {
-                return .failure(APIError.unhandledResponse)
+    func decoding<M : Model>(_ model: M.Type, completion: @escaping (Result<M, APIError>) -> Void) {
+        DispatchQueue.global().async {
+            let result = self.flatMap { data -> Result<M, APIError> in
+                do {
+                    let decoder = M.decoder
+                    let model = try decoder.decode(M.self, from: data)
+                    return .success(model)
+                } catch let e as DecodingError {
+                    return .failure(.decodingError(e))
+                } catch {
+                    return .failure(APIError.unhandledResponse)
+                }
+            }
+            DispatchQueue.main.async {
+                completion(result)
             }
         }
     }

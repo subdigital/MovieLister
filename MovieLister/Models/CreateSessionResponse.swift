@@ -13,11 +13,3 @@ struct CreateSessionResponse : Model {
     let success: Bool
     let sessionId: String
 }
-
-extension CreateSessionResponse {
-    static var decoder: JSONDecoder {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        return decoder
-    }
-}

@@ -226,9 +226,9 @@
 				B5DCC43C23726480003A9082 /* PagedResults.swift */,
 				B5DCC43E23726669003A9082 /* MovieDBConfiguration.swift */,
 				B5EC9812237885C70075E016 /* AuthenticationTokenResponse.swift */,
-				B5EC98192378CEC30075E016 /* CreateSessionResponse.swift */,
 				B5EC98252378EBE10075E016 /* Account.swift */,
 				B57CEB1A23822F2100CC903B /* CreationSessionRequest.swift */,
+				B5EC98192378CEC30075E016 /* CreateSessionResponse.swift */,
 				B57596F12384E03000D9F538 /* MarkFavoriteRequest.swift */,
 				B57596F32384E04000D9F538 /* GenericResponse.swift */,
 			);

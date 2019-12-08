@@ -101,8 +101,10 @@ extension Request {
     }
 
     static func createSession(requestToken: String, _ completion: @escaping (Result<CreateSessionResponse, APIError>) -> Void) -> Request {
-        let body = CreateSessionRequest(requestToken: requestToken)
-        return Request.post(baseURL: MovieDB.baseURL, path: "authentication/session/new", body: body) { result in
+        struct Body : Model {
+            let requestToken: String
+        }
+        return Request.post(baseURL: MovieDB.baseURL, path: "authentication/session/new", body: Body(requestToken: requestToken)) { result in
             result.decoding(CreateSessionResponse.self, completion: completion)
         }
     }

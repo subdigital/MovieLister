@@ -19,16 +19,6 @@ struct MovieDBConfiguration : Model {
         let posterSizes: [String]
         let profileSizes: [String]
         let stillSizes: [String]
-
-        enum CodingKeys : String, CodingKey {
-            case baseUrl
-            case secureBaseUrl
-            case backdropSizes
-            case logoSizes
-            case posterSizes
-            case profileSizes
-            case stillSizes
-        }
     }
     
     let images: Images

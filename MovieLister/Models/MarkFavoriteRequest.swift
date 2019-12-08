@@ -14,9 +14,3 @@ struct MarkFavoriteRequest : Model {
     let mediaId: Int
     let favorite: Bool
 }
-
-extension MarkFavoriteRequest {
-    static var encoder: JSONEncoder {
-        MovieDB.defaultEncoder
-    }
-}

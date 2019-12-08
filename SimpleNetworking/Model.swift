@@ -17,11 +17,15 @@ public extension Model {
 
     // by default use a basic decoder
     static var decoder: JSONDecoder {
-        return JSONDecoder()
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return decoder
     }
 
     static var encoder: JSONEncoder {
-        return JSONEncoder()
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        return encoder
     }
 }
 

@@ -39,18 +39,16 @@ struct MovieDB {
     }()
     
     struct SessionAdapter : RequestAdapter {
-        func adapt(_ request: URLRequest) -> URLRequest {
-            guard let sessionId = SessionManager.shared.currentSessionId else { return request }
-            guard let requestURL = request.url else { return request }
-            guard var components = URLComponents(url: requestURL, resolvingAgainstBaseURL: false) else { return request }
+        func adapt(_ request: inout URLRequest) {
+            guard let sessionId = SessionManager.shared.currentSessionId else { return }
+            guard let requestURL = request.url else { return }
+            guard var components = URLComponents(url: requestURL, resolvingAgainstBaseURL: false) else { return }
             
             var queryItems = components.queryItems ?? []
             queryItems.append(URLQueryItem(name: "session_id", value: sessionId))
             components.queryItems = queryItems
-            
-            var req = request
-            req.url = components.url
-            return req
+
+            request.url = components.url
         }
     }
     

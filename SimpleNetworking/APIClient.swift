@@ -9,14 +9,14 @@
 import Foundation
 
 public protocol RequestAdapter {
-    func adapt(_ request: URLRequest) -> URLRequest
+    func adapt(_ request: inout URLRequest)
     func beforeSend(method: HTTPMethod, url: URL)
     func onError(request: URLRequest)
     func onSuccess(request: URLRequest)
 }
 
 public extension RequestAdapter {
-    func adapt(_ request: URLRequest) -> URLRequest { return request }
+    func adapt(_ request: inout URLRequest) { }
     func beforeSend(method: HTTPMethod, url: URL) { }
     func onError(request: URLRequest) { }
     func onSuccess(request: URLRequest) { }
@@ -67,9 +67,7 @@ public struct APIClient {
             self.log.message("Request: \(urlRequest.url?.absoluteString ?? "<?>")", level: .info)
             self.log.message(urlRequest.httpBody, level: .debug)
 
-            for adapter in self.adapters {
-                urlRequest = adapter.adapt(urlRequest)
-            }
+            self.adapters.forEach { $0.adapt(&urlRequest) }
             let task = self.session.dataTask(with: urlRequest) { (data, response, error) in
                 let result: Result<Data, APIError>
                 if let error = error {

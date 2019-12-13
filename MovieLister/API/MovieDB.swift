@@ -21,9 +21,9 @@ struct MovieDB {
         return APIClient(
             configuration: configuration,
             adapters: [
-                SessionAdapter()
-            ],
-            logLevel: .debug)
+                SessionAdapter(),
+                LoggingAdapter(logLevel: .debug)
+            ])
     }()
 
     static var defaultDecoder: JSONDecoder = {
@@ -49,12 +49,6 @@ struct MovieDB {
             components.queryItems = queryItems
 
             request.url = components.url
-        }
-    }
-    
-    struct LoggingAdapter : RequestAdapter {
-        func beforeSend(method: HTTPMethod, url: URL) {
-            print("Request -> HTTP \(method.rawValue) to \(url)")
         }
     }
     

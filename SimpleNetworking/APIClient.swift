@@ -10,40 +10,22 @@ import Foundation
 
 public protocol RequestAdapter {
     func adapt(_ request: inout URLRequest)
-    func beforeSend(method: HTTPMethod, url: URL)
-    func onError(request: URLRequest)
+    func beforeSend(_ request: URLRequest)
+    func onResponse(response: URLResponse?, data: Data?)
+    func onError(request: URLRequest, error: APIError)
     func onSuccess(request: URLRequest)
 }
 
 public extension RequestAdapter {
     func adapt(_ request: inout URLRequest) { }
-    func beforeSend(method: HTTPMethod, url: URL) { }
-    func onError(request: URLRequest) { }
+    func beforeSend(_ request: URLRequest) { }
+    func onResponse(response: URLResponse?, data: Data?) { }
+    func onError(request: URLRequest, error: APIError) { }
     func onSuccess(request: URLRequest) { }
 }
 
-// TODO: Adapter for authentication?
 public struct APIClient {
 
-    public enum LogLevel : Int {
-        case none
-        case info
-        case debug
-    }
-    public struct Log {
-        var level: LogLevel = .info
-        public func message(_ msg: @autoclosure () -> String, level: LogLevel) {
-            guard level.rawValue <= self.level.rawValue else { return }
-            print(msg())
-        }
-
-        public func message(_ utf8Data: @autoclosure () -> Data?, level: LogLevel) {
-            guard level.rawValue <= self.level.rawValue else { return }
-            let stringValue = utf8Data().flatMap({ String(data: $0, encoding: .utf8 )}) ?? "<empty>"
-            message(stringValue, level: level)
-        }
-    }
-    var log = Log()
     
     private let session: URLSession
     private let queue: DispatchQueue
@@ -53,10 +35,9 @@ public struct APIClient {
     public static var defaultEncoder = JSONEncoder()
     public static var defaultDecoder = JSONDecoder()
     
-    public init(configuration: URLSessionConfiguration = .default, adapters: [RequestAdapter] = [], logLevel: LogLevel = .info) {
+    public init(configuration: URLSessionConfiguration = .default, adapters: [RequestAdapter] = []) {
         self.session = URLSession(configuration: configuration)
         self.adapters = adapters
-        log.level = logLevel
         queue = DispatchQueue(label: "SimpleNetworking", qos: .userInitiated, attributes: .concurrent)
     }
     
@@ -64,11 +45,12 @@ public struct APIClient {
         queue.async {
             var urlRequest = request.builder.toURLRequest()
 
-            self.log.message("Request: \(urlRequest.url?.absoluteString ?? "<?>")", level: .info)
-            self.log.message(urlRequest.httpBody, level: .debug)
-
             self.adapters.forEach { $0.adapt(&urlRequest) }
+            self.adapters.forEach { $0.beforeSend(urlRequest) }
+
             let task = self.session.dataTask(with: urlRequest) { (data, response, error) in
+                self.adapters.forEach { $0.onResponse(response: response, data: data) }
+
                 let result: Result<Data, APIError>
                 if let error = error {
                     result = .failure(.networkError(error))
@@ -78,8 +60,13 @@ public struct APIClient {
                     result = .success(data ?? Data())
                 }
 
-                self.log.message("\(result)", level: .info)
-                self.log.message(data, level: .debug)
+                // notify adapters
+                switch result {
+                case .success:
+                    self.adapters.forEach { $0.onSuccess(request: urlRequest) }
+                case .failure(let error):
+                    self.adapters.forEach { $0.onError(request: urlRequest, error: error) }
+                }
 
                 DispatchQueue.main.async {
                     request.completion(result)

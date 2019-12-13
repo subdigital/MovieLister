@@ -120,7 +120,12 @@ extension Request {
     }
 
     static func markFavorite(accountID: Int, mediaType: String, mediaID: Int, favorite: Bool, _ completion: @escaping (Result<GenericResponse, APIError>) -> Void) -> Request {
-        let body = MarkFavoriteRequest(mediaType: mediaType, mediaId: mediaID, favorite: favorite)
+        struct Body : Model {
+            let mediaType: String
+            let mediaID: Int
+            let favorite: Bool
+        }
+        let body = Body(mediaType: mediaType, mediaID: mediaID, favorite: favorite)
         return Request.post(baseURL: MovieDB.baseURL, path: "account/\(accountID)/favorite", body: body) { result in
             result.decoding(GenericResponse.self, completion: completion)
         }

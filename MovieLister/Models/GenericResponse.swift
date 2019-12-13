@@ -13,9 +13,3 @@ struct GenericResponse : Model {
     let statusCode: Int
     let statusMessage: String
 }
-
-extension GenericResponse {
-    static var decoder: JSONDecoder {
-        MovieDB.defaultDecoder
-    }
-}

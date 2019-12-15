@@ -28,10 +28,10 @@ public struct LoggingAdapter : RequestAdapter {
         }
     }
 
-    private var log = Log()
+    private let log: Log
 
     public init(logLevel: LogLevel = .info) {
-        log.level = logLevel
+        log = Log(level: logLevel)
     }
 
     public func beforeSend(_ request: URLRequest) {

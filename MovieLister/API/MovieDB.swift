@@ -40,7 +40,7 @@ struct MovieDB {
     
     struct SessionAdapter : RequestAdapter {
         func adapt(_ request: inout URLRequest) {
-            guard let sessionId = SessionManager.shared.currentSessionId else { return }
+            guard let sessionId = Current.sessionManager.currentSessionId else { return }
             guard let requestURL = request.url else { return }
             guard var components = URLComponents(url: requestURL, resolvingAgainstBaseURL: false) else { return }
             

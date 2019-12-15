@@ -59,7 +59,7 @@ class AccountContainerViewController : UIViewController {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        if SessionManager.shared.isLoggedIn {
+        if Current.sessionManager.isLoggedIn {
             title = "Account"
         } else {
             title = "Login"
@@ -79,7 +79,7 @@ class AccountContainerViewController : UIViewController {
     private func updateChildController() {
         guard let storyboard = storyboard else { return }
         
-        if SessionManager.shared.isLoggedIn {
+        if Current.sessionManager.isLoggedIn {
             let accountVC = storyboard.instantiateViewController(identifier: "AccountViewController") as! AccountViewController
             mode = .loggedIn(accountVC)
         } else {

@@ -20,7 +20,7 @@ class AccountViewController : UIViewController {
     }
     
     @IBAction private func logOut() {
-        SessionManager.shared.logOut()
+        Current.sessionManager.logOut()
     }
     
     private func fetchAccount() {

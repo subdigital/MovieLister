@@ -9,7 +9,8 @@
 import Foundation
 
 struct World {
-    static var current = World()
-    static var sessionManager = SessionManager.shared
-    static var accountManager = AccountManager()
+    var sessionManager = SessionManager()
+    var accountManager = AccountManager()
 }
+
+var Current = World()

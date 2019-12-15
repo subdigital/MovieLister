@@ -18,6 +18,6 @@ class LoginViewController : UIViewController {
     }
     
     @IBAction func loginTapped(_ sender: UIButton) {
-        World.sessionManager.startLogin(from: self)
+        Current.sessionManager.startLogin(from: self)
     }
 }

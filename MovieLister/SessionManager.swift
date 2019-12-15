@@ -12,15 +12,13 @@ import UIKit
 import SafariServices
 
 class SessionManager {
-    static var shared = SessionManager()
-    
     static let currentUserDidChange: Notification.Name = Notification.Name(rawValue: "currentUserDidChange")
     
     private let keychain: Valet
     private let sessionIdKey = "sessionId"
     private let accountIdKey = "accountId"
     
-    private init() {
+    init() {
         keychain = Valet.valet(with: Identifier(nonEmpty: "MovieListerKeychain")!, accessibility: .afterFirstUnlock)
     }
 
@@ -92,7 +90,7 @@ class SessionManager {
             case .success(let response):
                 if response.success {
                     self.currentSessionId = response.sessionId
-                    World.accountManager.fetchAccount { result in
+                    Current.accountManager.fetchAccount { result in
                         switch result {
                         case .success(let account):
                             self.currentAccountId = account.id

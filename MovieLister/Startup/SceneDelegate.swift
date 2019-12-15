@@ -23,8 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = rootVC
         }
 
-        if World.sessionManager.isLoggedIn {
-            World.accountManager.fetchAccount { result in
+        if Current.sessionManager.isLoggedIn {
+            Current.accountManager.fetchAccount { result in
                 if case .failure(let e) = result {
                     print("Error fetching account: \(e)")
                 }

@@ -12,9 +12,3 @@ import SimpleNetworking
 struct CreateSessionRequest : Model {
     let requestToken: String
 }
-
-extension CreateSessionRequest {
-    static var encoder: JSONEncoder {
-        MovieDB.defaultEncoder
-    }
-}

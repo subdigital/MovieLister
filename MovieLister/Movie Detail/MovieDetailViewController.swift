@@ -31,11 +31,11 @@ class MovieDetailViewController : UIViewController {
     }
 
     private var sessionManager: SessionManager {
-        World.sessionManager
+        Current.sessionManager
     }
 
     private var accountManager: AccountManager {
-        World.accountManager
+        Current.accountManager
     }
     
     override func viewDidLoad() {

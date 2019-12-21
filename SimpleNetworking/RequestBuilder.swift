@@ -30,7 +30,7 @@ public extension RequestBuilder {
 
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = headers
-        request.httpMethod = method.rawValue
+        request.httpMethod = method.rawValue.uppercased()
         request.httpBody = encodeRequestBody()
         return request
     }

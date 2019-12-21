@@ -21,20 +21,13 @@ struct Movie : Model, Hashable {
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-        id = try container.decode(Int.self, forKey: .id)
-        title = try container.decode(String.self, forKey: .title)
-        overview = try container.decodeIfPresent(String.self, forKey: .overview)
-        posterPath = try container.decodeIfPresent(String.self, forKey: .posterPath)
-        
-        let releaseDateString = try container.decode(String.self, forKey: .releaseDate)
-        releaseDate = Movie.releaseDateFormatter.date(from: releaseDateString)!
-    }
 }
 
 extension Movie {
-    
+    static var decoder: JSONDecoder {
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.dateDecodingStrategy = .formatted(Movie.releaseDateFormatter)
+        return decoder
+    }
 }

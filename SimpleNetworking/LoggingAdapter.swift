@@ -51,7 +51,7 @@ public struct LoggingAdapter : RequestAdapter {
         log.message(data, level: .debug)
     }
 
-    public func onError(request: URLRequest) {
-        log.message("❌ ERROR:", level: .info)
+    public func onError(request: URLRequest, error: APIError) {
+        log.message("❌ ERROR: \(error)", level: .info)
     }
 }

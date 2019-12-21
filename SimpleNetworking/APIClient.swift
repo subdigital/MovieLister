@@ -25,8 +25,6 @@ public extension RequestAdapter {
 }
 
 public struct APIClient {
-
-    
     private let session: URLSession
     private let queue: DispatchQueue
     

@@ -14,7 +14,6 @@ public protocol Model : Codable {
 }
 
 public extension Model {
-
     // by default use a basic decoder
     static var decoder: JSONDecoder {
         let decoder = JSONDecoder()

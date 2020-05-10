@@ -17,9 +17,7 @@ struct MovieCellModel : Hashable {
     init(movie: Movie, configuration: MovieDBConfiguration) {
         id = movie.id
         title = movie.title
-    
-        let yearValue = Calendar.current.component(.year, from: movie.releaseDate)
-        year = "\(yearValue)"
+        year = movie.year
         
         let imageBase = configuration.images.secureBaseUrl
         

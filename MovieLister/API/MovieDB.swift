@@ -25,18 +25,6 @@ struct MovieDB {
                 LoggingAdapter(logLevel: .debug)
             ])
     }()
-
-    static var defaultDecoder: JSONDecoder = {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        return decoder
-    }()
-
-    static var defaultEncoder: JSONEncoder = {
-        let encoder = JSONEncoder()
-        encoder.keyEncodingStrategy = .convertToSnakeCase
-        return encoder
-    }()
     
     struct SessionAdapter : RequestAdapter {
         func adapt(_ request: inout URLRequest) {
@@ -71,7 +59,6 @@ struct MovieDB {
 }
  
 extension Request {
-
     static func popularMovies(_ completion: @escaping (Result<PagedResults<Movie>, APIError>) -> Void) -> Request {
         Request.basic(baseURL: MovieDB.baseURL, path: "discover/movie", params: [
             URLQueryItem(name: "sort_by", value: "popularity.desc")

@@ -17,8 +17,6 @@ struct PagedResults<Item : Model> : Model {
 
 extension PagedResults {
     static var decoder: JSONDecoder {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        return decoder
+        Item.decoder
     }
 }
